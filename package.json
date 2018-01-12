@@ -1,0 +1,17 @@
+{
+  "name": "todo",
+  "version": "1.0.0",
+  "description": "Todo",
+  "main": "src/index.js",
+  "dependencies": {
+    "chai": "^4.1.2"
+  },
+  "devDependencies": {
+    "mocha": "^3.5.3"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "Apache 2.0"
+}

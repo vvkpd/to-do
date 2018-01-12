@@ -15,9 +15,9 @@ describe('app',()=>{
     })
   })
   describe('GET /',()=>{
-    it('redirects to index.html',done=>{
+    it('redirects to login.html',done=>{
       request(app,{method:'GET',url:'/'},(res)=>{
-        th.should_be_redirected_to(res,'/index.html');
+        th.should_be_redirected_to(res,'/login.html');
         assert.equal(res.body,"");
         done();
       })
@@ -28,7 +28,7 @@ describe('app',()=>{
       request(app,{method:'GET',url:'/index.html'},res=>{
         th.status_is_ok(res);
         th.content_type_is(res,'text/html');
-        th.body_contains(res,'Flower Catalog Website');
+        th.body_contains(res,'Home:');
         done();
       })
     })
