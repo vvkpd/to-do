@@ -1,7 +1,6 @@
 let chai = require('chai');
 let assert = chai.assert;
 let request = require('./requestSimulator.js');
-// process.env.COMMENT_STORE = "./testStore.json";
 let app = require('../app.js');
 let th = require('./testHelper.js');
 
@@ -53,9 +52,8 @@ describe('app',()=>{
       })
     })
   })
-
-  describe.skip('POST /login',()=>{
-    it('redirects to index for valid user',done=>{
+  describe('POST /login',()=>{
+    it.skip('redirects to index for valid user',done=>{
       request(app,{method:'POST',url:'/login',body:'Name=vivek&Password=123'},res=>{
         th.should_be_redirected_to(res,'/index.html');
         th.should_not_have_cookie(res,'message');
@@ -63,9 +61,9 @@ describe('app',()=>{
       })
     })
     it('redirects to login.html with message for invalid user',done=>{
-      request(app,{method:'POST',url:'/login',body:'Name=badUser'},res=>{
+      request(app,{method:'POST',url:'/login',body:'Name=badUser&Password=45'},res=>{
         th.should_be_redirected_to(res,'/login.html');
-        th.should_have_expiring_cookie(res,'message','login failed');
+        th.should_have_expiring_cookie(res,'logInFailed=true');
         done();
       })
     })
