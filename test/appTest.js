@@ -25,7 +25,7 @@ describe('app',()=>{
   })
   describe('GET /index.html',()=>{
     it('gives the index page',done=>{
-      request(app,{method:'GET',url:'/index.html'},res=>{
+      request(app,{method:'GET',url:'/index.html',user:true},res=>{
         th.status_is_ok(res);
         th.content_type_is(res,'text/html');
         th.body_contains(res,'Home:');
@@ -33,25 +33,6 @@ describe('app',()=>{
       })
     })
   })
-  // describe('GET /images/freshorigins.jpg',()=>{
-  //   it('serves the image',done=>{
-  //     request(app,{method:'GET',url:'/images/freshorigins.jpg'},res=>{
-  //       th.status_is_ok(res);
-  //       th.content_type_is(res,'image/jpg');
-  //       done();
-  //     })
-  //   })
-  // })
-  // describe('GET /scripts/flowerCatalog.js',()=>{
-  //   it('serves the javascript source',done=>{
-  //     request(app,{method:'GET',url:'/scripts/flowerCatalog.js'},res=>{
-  //       th.status_is_ok(res);
-  //       th.content_type_is(res,'text/javascript');
-  //       th.body_contains(res,'hidePot');
-  //       done();
-  //     })
-  //   })
-  // })
   describe('GET /login.html',()=>{
     it('serves the login page',done=>{
       request(app,{method:'GET',url:'/login.html'},res=>{
@@ -73,27 +54,18 @@ describe('app',()=>{
     })
   })
 
-  describe('POST /login',()=>{
-    it('redirects to guestBook for valid user',done=>{
-      request(app,{method:'POST',url:'/login',body:'username=arvind'},res=>{
-        th.should_be_redirected_to(res,'/guestBook');
+  describe.skip('POST /login',()=>{
+    it('redirects to index for valid user',done=>{
+      request(app,{method:'POST',url:'/login',body:'Name=vivek&Password=123'},res=>{
+        th.should_be_redirected_to(res,'/index.html');
         th.should_not_have_cookie(res,'message');
         done();
       })
     })
     it('redirects to login.html with message for invalid user',done=>{
-      request(app,{method:'POST',url:'/login',body:'username=badUser'},res=>{
+      request(app,{method:'POST',url:'/login',body:'Name=badUser'},res=>{
         th.should_be_redirected_to(res,'/login.html');
         th.should_have_expiring_cookie(res,'message','login failed');
-        done();
-      })
-    })
-  })
-
-  describe.skip('POST /submitForm',()=>{
-    it('serves the javascript source',done=>{
-      request(app,{method:'POST',url:'/submitForm',body:'name=Foo&comment=Faa'},res=>{
-        th.should_be_redirected_to(res,'/guestBook');
         done();
       })
     })
