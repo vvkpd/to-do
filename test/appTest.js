@@ -33,30 +33,30 @@ describe('app',()=>{
       })
     })
   })
-  describe('GET /images/freshorigins.jpg',()=>{
-    it('serves the image',done=>{
-      request(app,{method:'GET',url:'/images/freshorigins.jpg'},res=>{
-        th.status_is_ok(res);
-        th.content_type_is(res,'image/jpg');
-        done();
-      })
-    })
-  })
-  describe('GET /scripts/flowerCatalog.js',()=>{
-    it('serves the javascript source',done=>{
-      request(app,{method:'GET',url:'/scripts/flowerCatalog.js'},res=>{
-        th.status_is_ok(res);
-        th.content_type_is(res,'text/javascript');
-        th.body_contains(res,'hidePot');
-        done();
-      })
-    })
-  })
+  // describe('GET /images/freshorigins.jpg',()=>{
+  //   it('serves the image',done=>{
+  //     request(app,{method:'GET',url:'/images/freshorigins.jpg'},res=>{
+  //       th.status_is_ok(res);
+  //       th.content_type_is(res,'image/jpg');
+  //       done();
+  //     })
+  //   })
+  // })
+  // describe('GET /scripts/flowerCatalog.js',()=>{
+  //   it('serves the javascript source',done=>{
+  //     request(app,{method:'GET',url:'/scripts/flowerCatalog.js'},res=>{
+  //       th.status_is_ok(res);
+  //       th.content_type_is(res,'text/javascript');
+  //       th.body_contains(res,'hidePot');
+  //       done();
+  //     })
+  //   })
+  // })
   describe('GET /login.html',()=>{
     it('serves the login page',done=>{
       request(app,{method:'GET',url:'/login.html'},res=>{
         th.status_is_ok(res);
-        th.body_contains(res,'User Name:');
+        th.body_contains(res,'User-Name:');
         th.body_does_not_contain(res,'login failed');
         th.should_not_have_cookie(res,'message');
         done();
@@ -65,7 +65,7 @@ describe('app',()=>{
     it('serves the login page with message for a failed login',done=>{
       request(app,{method:'GET',url:'/login.html',headers:{'cookie':'message=login failed'}},res=>{
         th.status_is_ok(res);
-        th.body_contains(res,'User Name:');
+        th.body_contains(res,'User-Name:');
         th.body_contains(res,'login failed');
         th.should_not_have_cookie(res,'message');
         done();

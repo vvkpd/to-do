@@ -4,13 +4,11 @@ const PORT = 8000;
 
 let app = WebApp.create();
 
-
-// app.use(lib.loadUsers);
-// app.get('/guestbook.html',lib.handleGuestBookPage);
 app.get('/',(req,res)=>{
   res.redirect('/login.html');
 });
 
+app.post('/login',lib.loginPageHandler);
 app.postProcess(lib.serveStaticPage);
 
 module.exports = app;
