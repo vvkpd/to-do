@@ -18,6 +18,7 @@ app.get('/login.html',(req,res)=>{
 app.post('/todolist',lib.postTodoListHandler);
 app.post('/login',lib.loginPageHandler);
 app.get('/logout',lib.logoutPageHandler);
+app.post('/todoitem',lib.postToDoItemHandler);
 
 app.postProcess(lib.serveStaticPage);
 
