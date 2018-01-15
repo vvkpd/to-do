@@ -1,5 +1,4 @@
 const Todo = require('../todolib/todo.js');
-const TodoItem = require('../todolib/todoitem.js');
 const User = require('../todolib/user.js')
 
 let chai = require('chai');
@@ -11,9 +10,9 @@ describe('User',()=>{
     ramu = new User();
   })
 
-  describe('getAllTodo() gives all todo',()=>{
+  describe('getAllTodo gives all todo',()=>{
     it('is equal to {}',done=>{
-      assert.deepEqual(ramu.getAllTodo(),{});
+      assert.deepEqual(ramu.getAllTodo,{});
       done();
     })
   })
@@ -22,15 +21,15 @@ describe('User',()=>{
     it('is equal to {}',done=>{
       let todo = new Todo('simple todo','this is a sample');
       ramu.addTodo(todo);
-      assert.deepEqual(ramu.getAllTodo(),{'simple todo':{title:'simple todo',description:'this is a sample',items:{}}});
+      assert.deepEqual(ramu.getAllTodo,{'0':{title:'simple todo',"itemKey": 0,description:'this is a sample',items:{}}});
       done();
     })
   })
 
   describe('deleteTodo() deletes todo from allTodo',()=>{
     it('is equal to {}',done=>{
-      ramu.deleteTodo('simple todo');
-      assert.deepEqual(ramu.getAllTodo(),{});
+      ramu.deleteTodo('0');
+      assert.deepEqual(ramu.getAllTodo,{});
       done();
     })
   })

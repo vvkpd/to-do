@@ -3,20 +3,22 @@ class Todo {
     this.title = title;
     this.description = description;
     this.items = {};
+    this.itemKey = 0;
   }
-  getTitle(){
+  get getTitle(){
     return this.title;
   }
-  getDescription(){
+  get getDescription(){
     return this.description;
   }
   addItem(item){
-    this.items[item.getItem()] = item;
+    this.items[this.itemKey] = item;
+    this.itemKey++;
   }
   deleteItem(item){
     delete this.items[item];
   }
-  getItems(){
+  get getItems(){
     return this.items;
   }
 }

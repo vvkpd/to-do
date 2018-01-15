@@ -1,18 +1,19 @@
 class User {
   constructor() {
     this.allTodo = {};
+    this.todoKey = 0;
   }
 
-  getAllTodo(){
+  get getAllTodo(){
     return this.allTodo;
   }
 
   addTodo(todo){
-    this.allTodo[todo.title] = todo;
+    this.allTodo[this.todoKey] = todo;
   }
 
-  deleteTodo(todo){
-    delete this.allTodo[todo];
+  deleteTodo(todoKey){
+    delete this.allTodo[todoKey];
   }
 }
 module.exports = User;

@@ -1,19 +1,22 @@
 class TodoItem {
-  constructor(item,status = false) {
+  constructor(item) {
     this.item = item;
-    this.doneStatus = status;
+    this.doneStatus = false;
   }
-  getItem(){
+  get getItem(){
     return this.item;
   }
-  editItem(newItem){
+  update(newItem){
     this.item = newItem;
   }
-  isDone(){
+  get isDone(){
     return this.doneStatus;
   }
-  setDoneStatus(status){
-    this.doneStatus = status;
+  setDone(){
+    this.doneStatus = true;
+  }
+  setUnDone(){
+    this.doneStatus = false;
   }
 }
 module.exports = TodoItem;
