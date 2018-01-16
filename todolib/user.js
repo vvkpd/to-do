@@ -10,6 +10,7 @@ class User {
 
   addTodo(todo){
     this.allTodo[this.todoKey] = todo;
+    this.todoKey++;
   }
 
   deleteTodo(todoKey){

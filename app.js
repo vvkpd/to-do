@@ -8,17 +8,8 @@ app.use(lib.loadUser);
 app.use(lib.redirectLoggedOutUserToLogin);
 app.use(lib.redirectToLoggedInToHome);
 
-app.get('/login.html',(req,res)=>{
-  let html = fs.readFileSync('public/login.html','utf8');
-  res.setHeader('Content-Type','text/html');
-  res.write(html.replace('LOGIN_MESSAGE',req.cookies.message||''));
-  res.end();
-});
-
-app.post('/todolist',lib.postTodoListHandler);
-app.post('/login',lib.loginPageHandler);
-app.get('/logout',lib.logoutPageHandler);
-app.post('/todoitem',lib.postToDoItemHandler);
+app.post('/login',lib.postLoginHandler);
+app.get('/logout',lib.getLogoutHandler);
 
 app.postProcess(lib.serveStaticPage);
 
