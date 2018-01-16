@@ -6,7 +6,6 @@ let request = function(app,options,onComplete){
   req.method = options.method;
   req.url = options.url;
   req.headers = options.headers||{};
-  req.user = options.user || false;
   let res={
     end:()=>{
       res.finished = true;
@@ -14,7 +13,6 @@ let request = function(app,options,onComplete){
         statusCode:res.statusCode||200,
         headers:res_headers,
         body:res_contents,
-        user:res.user
       };
       onComplete(result);
     },
