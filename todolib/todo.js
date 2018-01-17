@@ -6,10 +6,10 @@ class Todo {
     this.items = {};
     this.itemKey = 0;
   }
-  get getTitle(){
+  getTitle(){
     return this.title;
   }
-  get getDescription(){
+  getDescription(){
     return this.description;
   }
   addItem(item){
@@ -19,14 +19,16 @@ class Todo {
   deleteItem(itemId){
     delete this.items[itemId];
   }
-  get getItems(){
+  getItems(){
     return this.items;
   }
-  unDone(itemKey){
+  setUnDone(itemKey){
     this.items[itemKey].setUnDone();
+    return this.items[itemKey].isDone;
   }
   setDone(itemKey){
     this.items[itemKey].setDone();
+    return this.items[itemKey].isDone;
   }
   updateItem(itemKey,item){
     this.items[itemKey].update(item);

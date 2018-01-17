@@ -15,18 +15,18 @@ describe('app',()=>{
   })
 
   describe('GET /',()=>{
-    it('redirects to login.html',done=>{
+    it('redirects to login',done=>{
       request(app,{method:'GET',url:'/'},(res)=>{
-        th.should_be_redirected_to(res,'/login.html');
+        th.should_be_redirected_to(res,'/login');
         assert.equal(res.body,"");
         done();
       })
     })
   })
 
-  describe('GET /login.html',()=>{
+  describe('GET /login',()=>{
     it('serves the login page',done=>{
-      request(app,{method:'GET',url:'/login.html'},res=>{
+      request(app,{method:'GET',url:'/login'},res=>{
         th.status_is_ok(res);
         th.body_contains(res,'User-Name:');
         th.body_does_not_contain(res,'login failed');
@@ -38,26 +38,28 @@ describe('app',()=>{
 })
 
 describe('/login',()=>{
-  let session;
   it('redirects to index for valid user',done=>{
     request(app,{method:'POST',url:'/login',body:'Name=vivek&Password=123'},res=>{
-      th.should_be_redirected_to(res,'/index.html');
+      th.should_be_redirected_to(res,'/home');
       th.should_not_have_cookie(res,'message');
-      session = res.headers['Set-Cookie'];
     })
     done();
   })
 
-  it('get /login.html=> should give index when req has valid cookie',done=>{
-    request(app,{method:'GET',url:'/login.html',headers:{'cookie':`${session}`}},res=>{
-      th.should_be_redirected_to(res,'/index.html');
-      th.should_not_have_cookie(res,'logInFailed=true');
-      done();
+  it('get /login=> should give index when req has valid cookie',done=>{
+    var session;
+    request(app,{method:'POST',url:'/login',body:'Name=vivek&Password=123'},res=>{
+      session = res.headers['Set-Cookie'];
     })
+    request(app,{method:'GET',url:'/login',user:true,headers:{'cookie':`${session}`}},res=>{
+      th.should_be_redirected_to(res,'/home');
+      th.should_not_have_cookie(res,'logInFailed=true');
+    })
+    done();
   })
 
-  it('get /login.html=> should give login when req has inValid cookie',done=>{
-    request(app,{method:'GET',url:'/login.html',headers:{'cookie':`sessionid=134`}},res=>{
+  it('get /login=> should give login when req has inValid cookie',done=>{
+    request(app,{method:'GET',url:'/login',headers:{'cookie':`sessionid=134`}},res=>{
       th.status_is_ok(res);
       th.body_contains(res,'User-Name:')
       th.should_not_have_cookie(res,'logInFailed=true');
@@ -65,9 +67,9 @@ describe('/login',()=>{
     })
   })
 
-  it('redirects to login.html with message for invalid user',done=>{
+  it('redirects to login with message for invalid user',done=>{
     request(app,{method:'POST',url:'/login',body:'Name=badUser&Password=45'},res=>{
-      th.should_be_redirected_to(res,'/login.html');
+      th.should_be_redirected_to(res,'/login');
       th.should_have_expiring_cookie(res,'logInFailed=true');
       done();
     })

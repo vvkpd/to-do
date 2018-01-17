@@ -1,17 +1,19 @@
 const WebApp = require('./lib/webapp.js');
-const lib = require('./lib/serverLib.js');
-const fs = require('fs');
+const handler = require('./lib/serverLib.js');
 const PORT = 8000;
 
 let app = WebApp.create();
-app.use(lib.loadUser);
-app.use(lib.redirectLoggedOutUserToLogin);
-app.use(lib.redirectToLoggedInToHome);
+handler.loadDatabase();
 
+app.use(handler.loadUser);
+app.use(handler.redirectLoggedOutUserToLogin);
+app.use(handler.redirectToLoggedInToHome);
 
-app.post('/login',lib.postLoginHandler);
-app.get('/logout',lib.getLogoutHandler);
+app.post('/addtodo',handler.postTodo);
+app.post('/login',handler.postLoginHandler);
+app.get('/logout',handler.getLogoutHandler);
 
-app.postProcess(lib.serveStaticPage);
+app.postProcess(handler.writeInDatabase);
+app.postProcess(handler.serveStaticPage);
 
 module.exports = app;

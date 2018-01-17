@@ -4,47 +4,72 @@ const TodoItem = require('../todolib/todoitem.js');
 let chai = require('chai');
 let assert = chai.assert;
 
-describe('TodoList',()=>{
+describe('Todo',()=>{
   var todo;
-  before(function(){
+  beforeEach(function(){
     todo = new Todo('simple todo','this is a sample');
   })
 
   describe('getTitle gives title',()=>{
     it('is equal to simple todo',done=>{
-      assert.equal(todo.getTitle,'simple todo');
+      assert.equal(todo.getTitle(),'simple todo');
       done();
     })
   })
 
   describe('getDescription gives discription',()=>{
     it('is equal to "this is a sample"',done=>{
-      assert.equal(todo.getDescription,'this is a sample');
+      assert.equal(todo.getDescription(),'this is a sample');
       done();
     })
   })
 
   describe('getItems gives items',()=>{
     it('is equal to {}',done=>{
-      assert.deepEqual(todo.getItems,{});
+      assert.deepEqual(todo.getItems(),{});
       done();
     })
   })
 
   describe('addItem() adds item in the items',()=>{
     it('adds item in items',done=>{
-      let item = new TodoItem('clean room');
-      todo.addItem(item);
-      assert.deepEqual(todo.getItems,{'0':{item:'clean room',doneStatus:false}});
+      todo.addItem('clean room');
+      assert.deepEqual(todo.getItems(),{'0':{item:'clean room',doneStatus:false}});
       done();
     })
   })
 
+  describe('updateItem() updates item in the items',()=>{
+    it('item should update',done=>{
+      todo.addItem('clean room');
+      assert.deepEqual(todo.getItems(),{'0':{item:'clean room',doneStatus:false}});
+      todo.updateItem(0,'clean everything');
+      assert.deepEqual(todo.getItems(),{'0':{ item:'clean everything',doneStatus:false}});
+      done();
+    })
+  })
 
   describe('deleteItem() deletes item from the items',()=>{
     it('items has no item after deleting ',done=>{
+      todo.addItem('clean room');
       todo.deleteItem('0');
-      assert.deepEqual(todo.getItems,{});
+      assert.deepEqual(todo.getItems(),{});
+      done();
+    })
+  })
+
+  describe('setDone() sets status of item in the items',()=>{
+    it('item status should true',done=>{
+      todo.addItem('clean room');
+      assert.ok(todo.setDone(0));
+      done();
+    })
+  })
+
+  describe('setUnDone() sets status of item in the items',()=>{
+    it('item status should true',done=>{
+      todo.addItem('clean room');
+      assert.notOk(todo.setUnDone(0));
       done();
     })
   })
