@@ -1,3 +1,4 @@
+const TodoItem = require('./todoitem.js');
 class Todo {
   constructor(title,description) {
     this.title = title;
@@ -12,14 +13,23 @@ class Todo {
     return this.description;
   }
   addItem(item){
-    this.items[this.itemKey] = item;
+    this.items[this.itemKey] = new TodoItem(item);
     this.itemKey++;
   }
-  deleteItem(item){
-    delete this.items[item];
+  deleteItem(itemId){
+    delete this.items[itemId];
   }
   get getItems(){
     return this.items;
+  }
+  unDone(itemKey){
+    this.items[itemKey].setUnDone();
+  }
+  setDone(itemKey){
+    this.items[itemKey].setDone();
+  }
+  updateItem(itemKey,item){
+    this.items[itemKey].update(item);
   }
 }
 
