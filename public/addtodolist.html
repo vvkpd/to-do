@@ -3,14 +3,18 @@
   <head>
     <meta charset="utf-8">
     <title>Add todo</title>
+    <script src="js/addtodo.js" charset="utf-8"></script>
   </head>
   <body>
     <h1>Add todo</h1>
     <h2><a href="logout">Logout</a> <a href="home.html">Home</a></h2>
-    <form action="addtodo" method="post">
-      Title: <input type="text" name="title"><br><br>
-      Discription: <textarea name="description" rows="4" cols="50"></textarea><br><br>
+    <form action="addtodo" id="addtodo" method="post">
+      Title: <input type="text" required name="title"><br><br>
+      Discription: <textarea name="description" required></textarea><br><br>
       <button type="submit">add todo</button>
+      <br><br>
     </form>
+    <br>
+    <button type="button" onclick="generateInputBox()" id="additem">Add new item</button>
   </body>
 </html>

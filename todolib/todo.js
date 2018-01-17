@@ -16,6 +16,9 @@ class Todo {
     this.items[this.itemKey] = new TodoItem(item);
     this.itemKey++;
   }
+  addItems(items){
+    items.forEach((item)=>this.addItem(item));
+  }
   deleteItem(itemId){
     delete this.items[itemId];
   }

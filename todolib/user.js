@@ -1,14 +1,18 @@
+const Todo = require('./todo.js');
+
 class User {
-  constructor() {
-    this.allTodo = {};
-    this.todoKey = 0;
+  constructor(todo) {
+    this.allTodo = todo;
+    this.todoKey = Object.keys(todo).length;
   }
 
   get getAllTodo(){
     return this.allTodo;
   }
 
-  addTodo(todo){
+  addTodo(title,description,items){
+    let todo = new Todo(title,description);
+    todo.addItems(items);
     this.allTodo[this.todoKey] = todo;
     this.todoKey++;
   }
