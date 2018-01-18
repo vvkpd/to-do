@@ -9,8 +9,9 @@ app.use(handler.loadUser);
 app.use(handler.redirectLoggedOutUserToLogin);
 app.use(handler.redirectToLoggedInToHome);
 
-app.post('/addtodo',handler.postTodo);
+app.get('/home',handler.getHome);
 app.post('/login',handler.postLoginHandler);
+app.post('/addtodo',handler.postTodo);
 app.get('/logout',handler.getLogoutHandler);
 
 app.postProcess(handler.writeInDatabase);
