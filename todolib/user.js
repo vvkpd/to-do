@@ -6,7 +6,7 @@ class User {
     this.todoKey = Object.keys(todo).length;
   }
 
-  get getAllTodo(){
+  getAllTodo(){
     return this.allTodo;
   }
 
