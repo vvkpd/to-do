@@ -4,7 +4,7 @@ const TodoItem = require('../todolib/todoitem.js');
 let chai = require('chai');
 let assert = chai.assert;
 
-describe('Todo',()=>{
+describe.only('Todo',()=>{
   var todo;
   beforeEach(function(){
     todo = new Todo('simple todo','this is a sample');
@@ -34,7 +34,7 @@ describe('Todo',()=>{
   describe('addItem() adds item in the items',()=>{
     it('adds item in items',done=>{
       todo.addItem('clean room');
-      assert.deepEqual(todo.getItems(),{'0':{item:'clean room',doneStatus:false}});
+      assert.deepEqual(todo.getItems(),{'1':{item:'clean room',doneStatus:false}});
       done();
     })
   })
@@ -42,8 +42,8 @@ describe('Todo',()=>{
   describe('addItems() adds item in the items',()=>{
     it('adds item in items',done=>{
       todo.addItems(['clean room','take break']);
-      let expected = { 0:{ item: 'clean room', doneStatus: false },
-                      1:{ item: 'take break', doneStatus: false } }
+      let expected = { 1:{ item: 'clean room', doneStatus: false },
+                      2:{ item: 'take break', doneStatus: false } }
       assert.deepEqual(todo.getItems(),expected);
       done();
     })
@@ -52,9 +52,9 @@ describe('Todo',()=>{
   describe('updateItem() updates item in the items',()=>{
     it('item should update',done=>{
       todo.addItem('clean room');
-      assert.deepEqual(todo.getItems(),{'0':{item:'clean room',doneStatus:false}});
-      todo.updateItem(0,'clean everything');
-      assert.deepEqual(todo.getItems(),{'0':{ item:'clean everything',doneStatus:false}});
+      assert.deepEqual(todo.getItems(),{'1':{item:'clean room',doneStatus:false}});
+      todo.updateItem(1,'clean everything');
+      assert.deepEqual(todo.getItems(),{'1':{ item:'clean everything',doneStatus:false}});
       done();
     })
   })
@@ -62,7 +62,7 @@ describe('Todo',()=>{
   describe('deleteItem() deletes item from the items',()=>{
     it('items has no item after deleting ',done=>{
       todo.addItem('clean room');
-      todo.deleteItem('0');
+      todo.deleteItem('1');
       assert.deepEqual(todo.getItems(),{});
       done();
     })
@@ -71,7 +71,7 @@ describe('Todo',()=>{
   describe('setDone() sets status of item in the items',()=>{
     it('item status should true',done=>{
       todo.addItem('clean room');
-      assert.ok(todo.setDone(0));
+      assert.ok(todo.setDone(1));
       done();
     })
   })
@@ -79,7 +79,14 @@ describe('Todo',()=>{
   describe('setUnDone() sets status of item in the items',()=>{
     it('item status should true',done=>{
       todo.addItem('clean room');
-      assert.notOk(todo.setUnDone(0));
+      assert.notOk(todo.setUnDone(1));
+      done();
+    })
+  })
+
+  describe('generateUniqID gives uniq ID',()=>{
+    it('should give 1 when todo do not have item',done=>{
+      assert.equal(todo.generateUniqID(),1);
       done();
     })
   })
