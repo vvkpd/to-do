@@ -4,7 +4,7 @@ const TodoItem = require('../todolib/todoitem.js');
 let chai = require('chai');
 let assert = chai.assert;
 
-describe.only('Todo',()=>{
+describe('Todo',()=>{
   var todo;
   beforeEach(function(){
     todo = new Todo('simple todo','this is a sample');

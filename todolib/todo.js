@@ -11,12 +11,10 @@ class Todo {
   getDescription(){
     return this.description;
   }
-
   generateUniqID(){
     let itemId = Object.keys(this.items).reduce((pv,cv)=>Math.max(pv,cv),0);
     return ++itemId;
   }
-
   addItem(item){
     this.items[this.generateUniqID()] = new TodoItem(item);
   }
