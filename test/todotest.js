@@ -39,6 +39,16 @@ describe('Todo',()=>{
     })
   })
 
+  describe('addItems() adds item in the items',()=>{
+    it('adds item in items',done=>{
+      todo.addItems(['clean room','take break']);
+      let expected = { 0:{ item: 'clean room', doneStatus: false },
+                      1:{ item: 'take break', doneStatus: false } }
+      assert.deepEqual(todo.getItems(),expected);
+      done();
+    })
+  })
+
   describe('updateItem() updates item in the items',()=>{
     it('item should update',done=>{
       todo.addItem('clean room');

@@ -3,13 +3,13 @@ class TodoItem {
     this.item = item;
     this.doneStatus = false;
   }
-  get getItem(){
+  getItem(){
     return this.item;
   }
   update(newItem){
     this.item = newItem;
   }
-  get isDone(){
+  isDone(){
     return this.doneStatus;
   }
   setDone(){

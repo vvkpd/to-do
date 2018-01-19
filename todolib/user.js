@@ -1,9 +1,9 @@
 const Todo = require('./todo.js');
 
 class User {
-  constructor(todo) {
-    this.allTodo = todo;
-    this.todoKey = Object.keys(todo).length;
+  constructor(todos) {
+    this.allTodo = todos;
+    this.todoId = Object.keys(todos).length;
   }
 
   getAllTodo(){
@@ -13,12 +13,12 @@ class User {
   addTodo(title,description,items){
     let todo = new Todo(title,description);
     todo.addItems(items);
-    this.allTodo[this.todoKey] = todo;
-    this.todoKey++;
+    this.allTodo[this.todoId] = todo;
+    this.todoId++;
   }
 
-  deleteTodo(todoKey){
-    delete this.allTodo[todoKey];
+  deleteTodo(todoId){
+    delete this.allTodo[todoId];
   }
 }
 module.exports = User;

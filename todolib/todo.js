@@ -27,11 +27,11 @@ class Todo {
   }
   setUnDone(itemKey){
     this.items[itemKey].setUnDone();
-    return this.items[itemKey].isDone;
+    return this.items[itemKey].isDone();
   }
   setDone(itemKey){
     this.items[itemKey].setDone();
-    return this.items[itemKey].isDone;
+    return this.items[itemKey].isDone();
   }
   updateItem(itemKey,item){
     this.items[itemKey].update(item);

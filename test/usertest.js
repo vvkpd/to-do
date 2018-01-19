@@ -17,7 +17,7 @@ describe('User',()=>{
   describe('addTodo() adds todo in allTodo',()=>{
     it('has one todo',done=>{
       ramu.addTodo('simple todo','this is a sample',[]);
-      assert.deepEqual(ramu.getAllTodo(),{'0':{title:'simple todo',"itemKey": 0,description:'this is a sample',items:{}}});
+      assert.deepEqual(ramu.getAllTodo(),{'0':{title:'simple todo',itemKey: 0,description:'this is a sample',items:{}}});
       done();
     })
   })
