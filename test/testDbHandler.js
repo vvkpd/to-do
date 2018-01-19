@@ -84,7 +84,27 @@ describe('DatabaseHandler',()=>{
       dbHandler.addUser('vivek');
       dbHandler.deleteTodo('vivek',1)
       let expected = {}
-      assert.deepEqual(dbHandler.getUserData('vivek',1),expected);
+      assert.deepEqual(dbHandler.getUserData('vivek'),expected);
     })
   })
-})
+
+  describe('getDatabase',()=>{
+    it("should give whole users data",()=>{
+      let expected = {
+        "vivek": {
+          "1": {
+            "title": "simple",
+            "description": "Simple dress",
+            "items": {
+              "1": {
+                "item": "take break",
+                "doneStatus": false
+              }
+            }
+          }
+        }
+      };
+      assert.deepEqual(dbHandler.getDatabase(),expected);
+    })
+  })
+});

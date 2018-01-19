@@ -29,6 +29,8 @@ class DatabaseHandler {
     this._allUsers[userName] = user.getAllTodo();
   }
 
-  getDatabase(){}
+  getDatabase(){
+    return this._allUsers;
+  }
 }
 module.exports = DatabaseHandler;
