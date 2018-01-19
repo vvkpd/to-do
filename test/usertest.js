@@ -17,7 +17,7 @@ describe('User',()=>{
   describe('addTodo() adds todo in allTodo',()=>{
     it('has one todo',done=>{
       ramu.addTodo('simple todo','this is a sample',[]);
-      assert.deepEqual(ramu.getAllTodo(),{'0':{title:'simple todo',itemKey: 0,description:'this is a sample',items:{}}});
+      assert.deepEqual(ramu.getAllTodo(),{1:{title:'simple todo',itemKey: 0,description:'this is a sample',items:{}}});
       done();
     })
   })
@@ -25,10 +25,16 @@ describe('User',()=>{
   describe('deleteTodo() deletes todo from allTodo',()=>{
     it('is equal to {} after deleting',done=>{
       ramu.addTodo('simple todo','this is a sample',[]);
-      ramu.deleteTodo(0);
+      ramu.deleteTodo(1);
       assert.deepEqual(ramu.getAllTodo(),{});
       done();
     })
   })
 
+  describe('generateUniqID gives uniq ID',()=>{
+    it('should give 1 when user do not have todo',done=>{
+      assert.equal(ramu.generateUniqID(),1);
+      done();
+    })
+  })
 })

@@ -16,7 +16,7 @@ class Users {
     return this._allUsers[userName];
   }
 
-  get getallUsers(){
+  getAllUsers(){
     return this._allUsers;
   }
 
