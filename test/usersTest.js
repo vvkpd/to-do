@@ -34,6 +34,23 @@ describe('Users',()=>{
       let expected = {};
       assert.deepEqual(users.getUserData('ramu'),expected);
     })
+
+    it('should not create new key for existing user',()=>{
+      users.addUser('vivek');
+      let expected ={
+        "1": {
+          "title": "simple",
+          "description": "Simple dress",
+          "items": {
+            "1": {
+              "item": "take break",
+              "doneStatus": false
+            }
+          }
+        }
+      };
+      assert.deepEqual(users.getUserData('vivek'),expected);
+    })
   })
 
   describe('createUser',()=>{
@@ -83,8 +100,8 @@ describe('Users',()=>{
     })
   })
 
-  describe('updateUser',()=>{
-    it('should update user details in users',()=>{
+  describe('userOperation',()=>{
+    it('should update user details after each operation',()=>{
       let ramu = users.createUser('ramu');
       let expected = {};
       assert.deepEqual(users.getUserData('ramu'),expected);

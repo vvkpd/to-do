@@ -26,8 +26,5 @@ class Users {
     return this._allUsers;
   }
 
-  updateUser(userName,user){
-    this._allUsers[userName] = user.getAllTodo();
-  }
 }
 module.exports = Users;

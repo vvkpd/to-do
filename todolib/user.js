@@ -21,7 +21,9 @@ class User {
   }
 
   deleteTodo(todoId){
-    delete this.allTodo[todoId];
+    if(todoId in this.allTodo)
+      return delete this.allTodo[todoId];
+    return false;
   }
 }
 module.exports = User;
