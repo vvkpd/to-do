@@ -17,6 +17,7 @@ th.should_not_have_cookie = (res,name)=> {
   assert.notInclude(cookieText,`${name}=`);
 };
 th.should_have_cookie = (res,name,value)=> {
+  console.log(res.headers);
   let cookieText = res.headers['Set-Cookie'];
   assert.include(cookieText,`${name}=${value}`);
 };

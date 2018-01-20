@@ -5,6 +5,7 @@ const PORT = 8000;
 let app = WebApp.create();
 handler.loadDatabase();
 
+app.use(handler.logRequest);
 app.use(handler.loadUser);
 app.use(handler.redirectLoggedOutUserToLogin);
 app.use(handler.redirectLoggedUserToHome);

@@ -3,6 +3,7 @@ let assert = chai.assert;
 let request = require('./requestSimulator.js');
 let app = require('../app.js');
 let th = require('./testHelper.js');
+process.env.SESSION_ID = 1234;
 
 describe('app',()=>{
   describe('GET /bad',()=>{
@@ -18,7 +19,14 @@ describe('app',()=>{
     it('redirects to login',done=>{
       request(app,{method:'GET',url:'/'},(res)=>{
         th.should_be_redirected_to(res,'/login');
-        assert.equal(res.body,"");
+        done();
+      })
+    })
+
+    it('redirects to home if user is already logged in',done=>{
+      request(app,{method:'POST',url:'/login',body:'Name=vivek&Password=123'},res=>{})
+      request(app,{method:'GET',url:'/',headers:{'cookie':`sessionid=1234`}},(res)=>{
+        th.should_be_redirected_to(res,'/home');
         done();
       })
     })
@@ -44,11 +52,7 @@ describe('app',()=>{
     })
 
     it('get /login=> should give index when req has valid cookie',done=>{
-      var session;
-      request(app,{method:'POST',url:'/login',body:'Name=vivek&Password=123'},res=>{
-        session = res.headers['Set-Cookie'];
-      })
-      request(app,{method:'GET',url:'/login',headers:{'cookie':`${session}`}},res=>{
+      request(app,{method:'GET',url:'/login',headers:{'cookie':`sessionid=${process.env.SESSION_ID}`}},res=>{
         th.should_be_redirected_to(res,'/home');
         th.should_not_have_cookie(res,'logInFailed=true');
       })
@@ -92,4 +96,31 @@ describe('app',()=>{
     })
   })
 
+  describe('GET /home',()=>{
+    it('should redirect unlogged user to login',(done)=>{
+      request(app,{method:'GET',url:'/home'},(res)=>{
+        th.should_be_redirected_to(res,'/login');
+        done();
+      })
+    })
+
+    it('should serve page for valid cookie',(done)=>{
+      request(app,{method:'GET',url:'/home',headers:{'cookie':`sessionid=${process.env.SESSION_ID}`}},(res)=>{
+        th.status_is_ok(res);
+        th.body_contains(res,"Home");
+        done();
+      })
+    })
+
+    it('should redirect to login for invalid cookies',(done)=>{
+      request(app,{method:'GET',url:'/home',headers:{'cookie':`sessionid=123`}},(res)=>{
+        th.should_be_redirected_to(res,'/login');
+        done();
+      })
+    })
+  })
+
+  describe('GET /addtodo',()=>{
+
+  })
 })
