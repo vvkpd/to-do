@@ -13,6 +13,7 @@ app.get('/home',handler.getHome);
 app.post('/login',handler.postLoginHandler);
 app.post('/addtodo',handler.postTodo);
 app.post('/deletetodo',handler.deletetodo);
+app.post('/viewtodo',handler.viewtodo);
 app.get('/logout',handler.getLogoutHandler);
 
 app.postProcess(handler.writeInDatabase);

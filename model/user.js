@@ -25,5 +25,9 @@ class User {
       return delete this.allTodo[todoId];
     return false;
   }
+
+  getTodo(todoId){
+    return this.allTodo[todoId];
+  }
 }
 module.exports = User;
