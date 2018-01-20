@@ -1,5 +1,5 @@
 let assert = require('chai').assert;
-const User = require('../todolib/user.js')
+const User = require('../model/user.js')
 
 describe('User',()=>{
   var ramu;

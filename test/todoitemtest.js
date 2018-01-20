@@ -1,4 +1,4 @@
-const Item = require('../todolib/todoitem.js');
+const Item = require('../model/todoitem.js');
 let chai = require('chai');
 let assert = chai.assert;
 

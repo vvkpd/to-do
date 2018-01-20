@@ -1,5 +1,5 @@
-const Todo = require('../todolib/todo.js');
-const TodoItem = require('../todolib/todoitem.js');
+const Todo = require('../model/todo.js');
+const TodoItem = require('../model/todoitem.js');
 
 let chai = require('chai');
 let assert = chai.assert;

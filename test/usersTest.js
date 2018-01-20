@@ -1,4 +1,4 @@
-const Users = require('../todolib/users.js');
+const Users = require('../model/users.js');
 let assert = require('chai').assert;
 
 describe('Users',()=>{

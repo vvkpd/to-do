@@ -1,5 +1,5 @@
 const WebApp = require('./lib/webapp.js');
-const handler = require('./lib/serverLib.js');
+const handler = require('./lib/handlers.js');
 const PORT = 8000;
 
 let app = WebApp.create();
