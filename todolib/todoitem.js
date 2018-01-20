@@ -1,7 +1,7 @@
 class TodoItem {
   constructor(item) {
     this.item = item;
-    this.doneStatus = false;
+    this.status = false;
   }
   getItem(){
     return this.item;
@@ -10,13 +10,13 @@ class TodoItem {
     this.item = newItem;
   }
   isDone(){
-    return this.doneStatus;
+    return this.status;
   }
   setDone(){
-    this.doneStatus = true;
+    this.status = true;
   }
   setUnDone(){
-    this.doneStatus = false;
+    this.status = false;
   }
 }
 module.exports = TodoItem;

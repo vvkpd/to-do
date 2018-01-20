@@ -34,7 +34,7 @@ describe('Todo',()=>{
   describe('addItem() adds item in the items',()=>{
     it('adds item in items',done=>{
       todo.addItem('clean room');
-      assert.deepEqual(todo.getItems(),{'1':{item:'clean room',doneStatus:false}});
+      assert.deepEqual(todo.getItems(),{'1':{item:'clean room',status:false}});
       done();
     })
   })
@@ -42,8 +42,8 @@ describe('Todo',()=>{
   describe('addItems() adds item in the items',()=>{
     it('adds item in items',done=>{
       todo.addItems(['clean room','take break']);
-      let expected = { 1:{ item: 'clean room', doneStatus: false },
-                      2:{ item: 'take break', doneStatus: false } }
+      let expected = { 1:{ item: 'clean room', status: false },
+                      2:{ item: 'take break', status: false } }
       assert.deepEqual(todo.getItems(),expected);
       done();
     })
@@ -52,9 +52,9 @@ describe('Todo',()=>{
   describe('updateItem() updates item in the items',()=>{
     it('item should update',done=>{
       todo.addItem('clean room');
-      assert.deepEqual(todo.getItems(),{'1':{item:'clean room',doneStatus:false}});
+      assert.deepEqual(todo.getItems(),{'1':{item:'clean room',status:false}});
       todo.updateItem(1,'clean everything');
-      assert.deepEqual(todo.getItems(),{'1':{ item:'clean everything',doneStatus:false}});
+      assert.deepEqual(todo.getItems(),{'1':{ item:'clean everything',status:false}});
       done();
     })
   })
