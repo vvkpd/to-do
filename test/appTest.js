@@ -48,7 +48,7 @@ describe('app',()=>{
       request(app,{method:'POST',url:'/login',body:'Name=vivek&Password=123'},res=>{
         session = res.headers['Set-Cookie'];
       })
-      request(app,{method:'GET',url:'/login',user:true,headers:{'cookie':`${session}`}},res=>{
+      request(app,{method:'GET',url:'/login',headers:{'cookie':`${session}`}},res=>{
         th.should_be_redirected_to(res,'/home');
         th.should_not_have_cookie(res,'logInFailed=true');
       })
@@ -68,6 +68,25 @@ describe('app',()=>{
       request(app,{method:'POST',url:'/login',body:'Name=badUser&Password=45'},res=>{
         th.should_be_redirected_to(res,'/login');
         th.should_have_expiring_cookie(res,'logInFailed=true');
+        done();
+      })
+    })
+  })
+
+  describe('GET /logout',()=>{
+    it('redirects unlogged user to login',(done)=>{
+      request(app,{method:'GET',url:'/logout'},(res)=>{
+        th.should_be_redirected_to(res,'/login');
+        assert.equal(res.body,"");
+        done();
+      })
+    })
+
+    it('reset cookies of logged in user',(done)=>{
+      request(app,{method:'GET',url:'/logout',headers:{'cookie':`sessionid=123`}},(res)=>{
+        th.should_be_redirected_to(res,'/login');
+        th.should_not_have_cookie(res,"sessionid");
+        assert.equal(res.body,"");
         done();
       })
     })

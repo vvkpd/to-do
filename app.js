@@ -14,6 +14,7 @@ app.post('/login',handler.postLoginHandler);
 app.post('/addtodo',handler.postTodo);
 app.post('/deletetodo',handler.deletetodo);
 app.post('/viewtodo',handler.viewtodo);
+app.get('/view',handler.serveTodo);
 app.get('/logout',handler.getLogoutHandler);
 
 app.postProcess(handler.writeInDatabase);
