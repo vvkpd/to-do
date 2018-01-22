@@ -86,14 +86,16 @@ describe('app',()=>{
       it('redirects unlogged user to login',(done)=>{
         request(app,{method:'GET',url:'/logout'},(res)=>{
           th.should_be_redirected_to(res,'/login');
+          th.body_contains(res,'');
           done();
         })
       })
 
       it('reset cookies of logged in user',(done)=>{
-        request(app,{method:'GET',url:'/logout',headers:{'cookie':`sessionid=123`}},(res)=>{
+        request(app,{method:'GET',url:'/logout',headers:{'cookie':`sessionid=1234`}},(res)=>{
           th.should_be_redirected_to(res,'/login');
-          th.should_not_have_cookie(res,"sessionid");
+          th.should_have_expiring_cookie(res,"loginFailed=false; Expires=Thu, 01 Jan 1970 00:00:00 GMT");
+          th.should_have_expiring_cookie(res,'sessionid=0; Expires=Thu, 01 Jan 1970 00:00:00 GMT');
           done();
         })
       })
