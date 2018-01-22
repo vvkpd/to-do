@@ -7,8 +7,8 @@ handler.loadDatabase();
 
 app.use(handler.logRequest);
 app.use(handler.loadUser);
-app.use(handler.redirectLoggedOutUserToLogin);
-app.use(handler.redirectLoggedUserToHome);
+app.use(handler.authentication);
+app.use(handler.redirectLoggedInUserToHome);
 
 app.get('/home',handler.getHome);
 app.post('/login',handler.postLoginHandler);
