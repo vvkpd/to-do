@@ -3,5 +3,6 @@ node_modules/
 *.log
 .DS_Store
 data/database.json
+data/testData.json
 .nyc_output
 coverage

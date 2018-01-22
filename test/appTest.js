@@ -4,15 +4,18 @@ let request = require('./requestSimulator.js');
 let app = require('../app.js');
 let th = require('./testHelper.js');
 process.env.SESSION_ID = 1234;
+process.env.FILE = './data/testData.json';
 
-describe('app',()=>{
-  describe('GET /bad',()=>{
+describe.skip('app',()=>{
+  describe('GET',()=>{
+    describe('/bad',()=>{
     it('responds with 404',done=>{
       request(app,{method:'GET',url:'/bad'},(res)=>{
         assert.equal(res.statusCode,404);
         done();
       })
     })
+  })
   })
 
   describe('GET /',()=>{
@@ -24,11 +27,12 @@ describe('app',()=>{
     })
 
     it('redirects to home if user is already logged in',done=>{
-      request(app,{method:'POST',url:'/login',body:'Name=vivek&Password=123'},res=>{})
+      request(app,{method:'POST',url:'/login',body:'Name=vivek&Password=123'},res=>{});
       request(app,{method:'GET',url:'/',headers:{'cookie':`sessionid=1234`}},(res)=>{
         th.should_be_redirected_to(res,'/home');
         done();
       })
+      request(app,{method:'GET',url:'/logout'},res=>{});
     })
   })
 
@@ -42,9 +46,19 @@ describe('app',()=>{
         done();
       })
     })
+  })
+
+  describe('GET /login with user',()=>{
+    before(function(){
+      request(app,{method:'POST',url:'/login',body:'Name=vivek&Password=123'},res=>{});
+    });
+
+    after(()=>{
+      request(app,{method:'GET',url:'/logout'},res=>{})
+    });
 
     it('redirects to index for valid user',done=>{
-      request(app,{method:'POST',url:'/login',body:'Name=vivek&Password=123'},res=>{
+      request(app,{method:'GET',url:'/login',headers:{'cookie':`sessionid=${process.env.SESSION_ID}`}},res=>{
         th.should_be_redirected_to(res,'/home');
         th.should_not_have_cookie(res,'message');
       })
@@ -59,7 +73,7 @@ describe('app',()=>{
       done();
     })
 
-    it('get /login=> should give login when req has inValid cookie',done=>{
+    it('should give login when req has inValid cookie',done=>{
       request(app,{method:'GET',url:'/login',headers:{'cookie':`sessionid=134`}},res=>{
         th.status_is_ok(res);
         th.body_contains(res,'User-Name:')
@@ -67,7 +81,9 @@ describe('app',()=>{
         done();
       })
     })
+  })
 
+  describe('POST /login',()=>{
     it('redirects to login with message for invalid user',done=>{
       request(app,{method:'POST',url:'/login',body:'Name=badUser&Password=45'},res=>{
         th.should_be_redirected_to(res,'/login');
@@ -81,7 +97,6 @@ describe('app',()=>{
     it('redirects unlogged user to login',(done)=>{
       request(app,{method:'GET',url:'/logout'},(res)=>{
         th.should_be_redirected_to(res,'/login');
-        assert.equal(res.body,"");
         done();
       })
     })
@@ -90,19 +105,29 @@ describe('app',()=>{
       request(app,{method:'GET',url:'/logout',headers:{'cookie':`sessionid=123`}},(res)=>{
         th.should_be_redirected_to(res,'/login');
         th.should_not_have_cookie(res,"sessionid");
-        assert.equal(res.body,"");
         done();
       })
     })
   })
 
-  describe('GET /home',()=>{
+  describe('GET /home without loggedin',()=>{
     it('should redirect unlogged user to login',(done)=>{
       request(app,{method:'GET',url:'/home'},(res)=>{
         th.should_be_redirected_to(res,'/login');
         done();
       })
     })
+
+  })
+
+  describe('GET /home with loggedin',()=>{
+    before(()=>{
+      request(app,{method:'POST',url:'/login',body:'Name=vivek&Password=123'},res=>{});
+    });
+
+    after(()=>{
+      request(app,{method:'GET',url:'/logout'},res=>{})
+    });
 
     it('should serve page for valid cookie',(done)=>{
       request(app,{method:'GET',url:'/home',headers:{'cookie':`sessionid=${process.env.SESSION_ID}`}},(res)=>{
@@ -121,6 +146,73 @@ describe('app',()=>{
   })
 
   describe('GET /addtodo',()=>{
+    it('should redirect unlogged user to login',(done)=>{
+      request(app,{method:'GET',url:'/addtodo'},(res)=>{
+        th.should_be_redirected_to(res,'/login');
+        done();
+      })
+    })
+
+    it('should serve addTodo page for valid user',(done)=>{
+      request(app,{method:'POST',url:'/login',body:'Name=vivek&Password=123'},res=>{});
+      request(app,{method:'GET',url:'/addtodo',headers:{'cookie':`sessionid=${process.env.SESSION_ID}`}},(res)=>{
+        th.status_is_ok(res);
+        th.body_contains(res,"Add Todo:");
+        done();
+      })
+      request(app,{method:'GET',url:'/logout'},res=>{});
+    })
+  })
+
+  describe('POST /addTodo without user',()=>{
+    it('should redirect unlogged user to login',(done)=>{
+      request(app,{method:'POST',url:'/addtodo'},(res)=>{
+        th.should_be_redirected_to(res,'/login');
+        done();
+      })
+    })
+  })
+
+  describe('POST /addtodo with user',()=>{
+    before(function(){
+      request(app,{method:'POST',url:'/login',body:'Name=vivek&Password=123'},res=>{});
+    });
+
+    after(()=>{
+      request(app,{method:'GET',url:'/logout'},res=>{})
+    });
+
+    it('should redirect user to requested page if body is not present',done=>{
+      request(app,{method:'POST',url:'/addtodo',headers:{'cookie':`sessionid=${process.env.SESSION_ID}`}},(res)=>{
+        th.should_be_redirected_to(res,'/addtodo');
+        done();
+      })
+    })
+
+    it('should redirect user to home page if body is present without items',
+    done=>{
+      request(app,{method:'POST',url:'/addtodo',headers:{'cookie':`sessionid=${process.env.SESSION_ID}`},body:'title=1&description=11'},(res)=>{
+        th.should_be_redirected_to(res,'/home');
+        done();
+      })
+    })
+
+    it('should redirect user to home page if body is present with single item',
+    done=>{
+      request(app,{method:'POST',url:'/addtodo',headers:{'cookie':`sessionid=${process.env.SESSION_ID}`},body:'title=1&description=11&items=hello'},
+      (res)=>{
+        th.should_be_redirected_to(res,'/home');
+        done();
+      })
+    })
+
+    it('should redirect user to home page if body is present with multiple item',done=>{
+      request(app,{method:'POST',url:'/addtodo',headers:{'cookie':`sessionid=${process.env.SESSION_ID}`},body:'title=1&description=11&items=hi&items=12'},
+      (res)=>{
+        th.should_be_redirected_to(res,'/home');
+        done();
+      })
+    })
 
   })
 })
