@@ -3,7 +3,7 @@ const handler = require('./lib/handlers.js');
 const PORT = 8000;
 
 let app = WebApp.create();
-// handler.loadDatabase();
+handler.loadDatabase();
 
 app.use(handler.logRequest);
 app.use(handler.loadUser);

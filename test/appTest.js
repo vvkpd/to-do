@@ -6,7 +6,7 @@ let th = require('./testHelper.js');
 process.env.SESSION_ID = 1234;
 process.env.FILE = './data/testData.json';
 
-describe.skip('app',()=>{
+describe('app',()=>{
   describe('GET',()=>{
     describe('/bad',()=>{
     it('responds with 404',done=>{
