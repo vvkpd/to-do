@@ -17,7 +17,9 @@ class User {
   addTodo(title,description,items){
     let todo = new Todo(title,description);
     todo.addItems(items);
-    this.allTodo[this.generateUniqID()] = todo;
+    let id = this.generateUniqID();
+    this.allTodo[id] = todo;
+    return id;
   }
 
   deleteTodo(todoId){
@@ -28,6 +30,12 @@ class User {
 
   getTodo(todoId){
     return this.allTodo[todoId];
+  }
+
+  updateTodo(todoId,title,description,items){
+    let todo = new Todo(title,description);
+    todo.addItems(items);
+    this.allTodo[todoId] = todo;
   }
 }
 module.exports = User;

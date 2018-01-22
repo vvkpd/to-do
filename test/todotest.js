@@ -1,8 +1,6 @@
+let assert = require('chai').assert;
 const Todo = require('../model/todo.js');
-const TodoItem = require('../model/todoitem.js');
 
-let chai = require('chai');
-let assert = chai.assert;
 
 describe('Todo',()=>{
   var todo;

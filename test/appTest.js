@@ -174,7 +174,7 @@ describe('app',()=>{
       })
     })
 
-    describe.skip('POST /addtodo with user',()=>{
+    describe('POST /addtodo with user',()=>{
       before(function(){
         request(app,{method:'POST',url:'/login',body:'Name=vivek&Password=123'},res=>{});
       });

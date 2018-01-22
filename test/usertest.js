@@ -15,7 +15,8 @@ describe('User',()=>{
 
   describe('addTodo()',()=>{
     it('adds todo in allTodo',()=>{
-      ramu.addTodo('simple todo','this is a sample',[]);
+      let id = ramu.addTodo('simple todo','this is a sample',[]);
+      assert.deepEqual(ramu.getTodo(id),{title:'simple todo',description:'this is a sample',items:{}});
       assert.deepEqual(ramu.getAllTodo(),{1:{title:'simple todo',description:'this is a sample',items:{}}});
     })
   })
@@ -54,6 +55,22 @@ describe('User',()=>{
         }
       }
     assert.deepEqual(ramu.getTodo(1),expected);
+    })
+  })
+
+  describe('updateTodo',()=>{
+    it('should update specified todo',()=>{
+      let id = ramu.addTodo("sample","sample file",['one','two']);
+      ramu.updateTodo(id,"practice","practice file",['three','four'])
+      let expected = {
+        title:'practice',
+        description:'practice file',
+        items:
+        { 1:{item:'three', status:false},
+          2:{item:'four', status:false}
+        }
+      }
+    assert.deepEqual(ramu.getTodo(id),expected);
     })
   })
 })
