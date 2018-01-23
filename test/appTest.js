@@ -1,7 +1,7 @@
  let chai = require('chai');
 let assert = chai.assert;
 let request = require('./requestSimulator.js');
-process.env.FILE = './data/testData.json';
+process.env.FILE = './testData.json';
 let app = require('../app.js');
 let th = require('./testHelper.js');
 process.env.SESSION_ID = 1234;
