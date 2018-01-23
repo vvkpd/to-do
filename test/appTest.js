@@ -1,10 +1,12 @@
- let chai = require('chai');
-let assert = chai.assert;
+let assert = require('chai').assert;
+const fs = require('fs');
 let request = require('./requestSimulator.js');
 process.env.FILE = './testData.json';
 let app = require('../app.js');
 let th = require('./testHelper.js');
 process.env.SESSION_ID = 1234;
+app.fs = fs;
+app.addData({});
 
 describe('app',()=>{
   describe('GET',()=>{

@@ -75,6 +75,20 @@ describe('Html',()=>{
       })
     })
 
+    describe('getCheckedAction()',()=>{
+      it('should give checked action for true status',()=>{
+        let action = html.getCheckedAction(true);
+        let expected = "checked";
+        assert.equal(action,expected);
+      })
+
+      it('should give no action for false status',()=>{
+        let action = html.getCheckedAction(false);
+        let expected = "";
+        assert.equal(action,expected);
+      })
+    })
+
     describe('createCheckbox()',()=>{
       it('should generate checked checkbox',()=>{
         let checkbox = html.createCheckBox('item','2',"checked");
