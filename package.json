@@ -4,7 +4,8 @@
   "description": "Todo",
   "main": "src/index.js",
   "dependencies": {
-    "chai": "^4.1.2"
+    "chai": "^4.1.2",
+    "express": "^4.16.2"
   },
   "devDependencies": {
     "mocha": "^3.5.3"

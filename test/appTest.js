@@ -196,9 +196,11 @@ describe('app',()=>{
 
       it('should redirect user to home page if body is present without items',
       done=>{
-        request(app,{method:'POST',url:'/addtodo',headers:{'cookie':`sessionid=${process.env.SESSION_ID}`},body:'title=1&description=11'},(res)=>{
-          th.should_be_redirected_to(res,'/home');
-          done();
+        request(app,{method:'POST',url:'/addtodo',headers:{'cookie':`sessionid=1234`},body:'title=sample&description=11'},(res)=>{
+          request(app,{method:'GET',url:'/home',headers:{'cookie':`sessionid=1234`}},(res)=>{
+            th.body_contains(res,'sample');
+            done();
+          })
         })
       })
 
