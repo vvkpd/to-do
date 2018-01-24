@@ -45,7 +45,13 @@ describe('Html',()=>{
     describe('generateHomeContent()',()=>{
       it('should convert given todos into html format',()=>{
         let form = html.generateHomeContent();
-        let expected = 'simple<form method="POST"><button name="todoId" value="1" formaction="/viewtodo" type="submit">view/edit</button><button name="todoId" value="1" formaction="/deletetodo" type="submit">delete</button></form><br/>'
+        let expected = 'simple<form method="POST"><button name="todoId" value="1" formaction="/viewtodo" type="submit">view/edit</button><button name="todoId" value="1" formaction="/deletetodo" type="submit">delete</button></form><br/>';
+        assert.equal(form,expected);
+      })
+
+      it('should not generate content if todos are not present',()=>{
+        let form = new Html().generateHomeContent();
+        let expected = '';
         assert.equal(form,expected);
       })
     })
