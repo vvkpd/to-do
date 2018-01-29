@@ -7,7 +7,6 @@ let th = require('./testHelper.js');
 process.env.SESSION_ID = 1234;
 app.fs = fs;
 app.addData({});
-
 describe.skip('app',()=>{
   describe('GET',()=>{
     describe('/bad',()=>{
@@ -110,7 +109,6 @@ describe.skip('app',()=>{
           done();
         })
       })
-
     })
 
     describe('GET /home with loggedin',()=>{

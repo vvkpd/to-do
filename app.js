@@ -10,12 +10,15 @@ app.addData = (data)=>{
   app.todoapp = new todoApp(data);
 }
 
+app.injectUsers = (users)=>{
+  app.users = users;
+}
+
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(handler.logRequest.bind(app));
 app.use(handler.loadUser.bind(app));
 app.use(handler.authentication);
-app.use(express.static('public',{extensions:['html','htm']}));
 app.post('/login',handler.postLoginHandler.bind(app));
 app.use(handler.redirectLoggedInUserToHome);
 
@@ -28,6 +31,7 @@ app.post('/viewtodo',handler.viewtodo);
 app.get('/view',handler.serveTodo.bind(app));
 app.get('/logout',handler.getLogoutHandler);
 
+app.use(express.static('public',{extensions:['html','htm']}));
 
 
 module.exports = app;

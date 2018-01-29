@@ -3,6 +3,8 @@ const setDisable = function(){
   [...inputBoxes].forEach((input)=>{
     input.disabled = true;
   })
+  document.getElementById("additem").style = "visibility:hidden";
+  document.querySelector("button[name='todoId']").style = "visibility:hidden";
 }
 
 const setEnable = function(){
@@ -10,6 +12,8 @@ const setEnable = function(){
   [...inputBoxes].forEach((input)=>{
     input.disabled = false;
   })
+  document.getElementById("additem").style = "visibility:visible";
+  document.querySelector("button[name='todoId']").style = "visibility:visible";
 }
 
 window.onload = setDisable;

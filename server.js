@@ -1,3 +1,4 @@
+const registered_users = require('./lib/registerUser.js').registered_users;
 let http = require('http');
 let app = require('./app.js');
 const fs = require('fs');
@@ -11,6 +12,7 @@ const loadDatabase = ()=>{
 };
 
 app.addData(loadDatabase());
+app.injectUsers(registered_users);
 
 let server = http.createServer(app);
 const PORT = 5000;
