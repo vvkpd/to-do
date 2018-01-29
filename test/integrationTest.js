@@ -31,6 +31,13 @@ let hasCookieWithValue = function(name,value){
   }
 }
 
+let notInclude = function(content){
+  return (res)=>{
+    let result = !res.text.includes(content);
+    if(!result) throw new Error("Expected string should not included in response");
+  }
+}
+
 describe('app',()=>{
   let users=[{Name:'vivek', Password:'123'},
             {Name:'rahul', Password:'123', sessionid:'1234'}];
@@ -232,6 +239,35 @@ describe('app',()=>{
       })
     })
 
+    describe('/viewtodo',()=>{
+      it('should redirect unlogged user to login',(done)=>{
+        request(app)
+        .post('/viewtodo')
+        .expect(302)
+        .expect('Location','/login')
+        .end(done);
+      })
+
+      it('should set todoId in cookie and redirect to view',(done)=>{
+        let getView = function(){
+          request(app)
+          .get('/view')
+          .set('cookie','sessionid=1234; todoId=1')
+          .expect(200)
+          .expect(/View/)
+          .expect(/play/)
+          .end(done);
+        }
+        request(app)
+        .post('/viewtodo')
+        .set('cookie','sessionid=1234')
+        .send('todoid=1')
+        .expect(302)
+        .expect('Location','/view')
+        .end(getView);
+      })
+    })
+
     describe('/addTodo',()=>{
       it('should redirect unlogged user to login',(done)=>{
         request(app)
@@ -250,7 +286,7 @@ describe('app',()=>{
           .end(done);
       })
 
-      it('should redirect user to home page if body is present without items',done=>{
+      it('should add and redirect user to home page if body is present without items',done=>{
         let getHome = function(){
           request(app)
             .get('/home')
@@ -269,7 +305,7 @@ describe('app',()=>{
           .end(getHome);
       })
 
-      it('should redirect user to home page if body is present with single item',done=>{
+      it('should add and redirect user to home page if body is present with single item',done=>{
         let getHome = function(){
           request(app)
             .get('/home')
@@ -288,7 +324,7 @@ describe('app',()=>{
           .end(getHome);
       })
 
-      it('should redirect user to home page if body is present with multiple item',done=>{
+      it('should add and redirect user to home page if body is present with multiple item',done=>{
         let getHome = function(){
           request(app)
             .get('/home')
@@ -305,6 +341,83 @@ describe('app',()=>{
           .expect(302)
           .expect('Location','/home')
           .end(getHome);
+      })
+    })
+
+    describe('/deletetodo',()=>{
+      it('should redirect unlogged user to login',(done)=>{
+        request(app)
+          .post('/deletetodo')
+          .expect(302)
+          .expect('Location','/login')
+          .end(done);
+      })
+
+      it('should delete the todo of given todoid',(done)=>{
+        let getHome = function(){
+          request(app)
+            .get('/home')
+            .set('cookie','sessionid=1234')
+            .expect(200)
+            .expect(/Home/)
+            .expect(notInclude('play'))
+            .end(done);
+        }
+        request(app)
+          .post('/deletetodo')
+          .set('cookie','sessionid=1234')
+          .send('todoId=1')
+          .expect(302)
+          .expect('Location','/home')
+          .end(getHome)
+      })
+    })
+
+    describe('/updateTodo',()=>{
+      it('should redirect unlogged user to login',(done)=>{
+        request(app)
+          .post('/updateTodo')
+          .expect(302)
+          .expect('Location','/login')
+          .end(done);
+      })
+
+      it('should update the todo of given todoid',(done)=>{
+        let getHome = function(){
+          request(app)
+            .get('/home')
+            .set('cookie','sessionid=1234')
+            .expect(200)
+            .expect(/Home/)
+            .expect(/practice/)
+            .end(done);
+        }
+        request(app)
+          .post('/updateTodo')
+          .set('cookie','sessionid=1234; todoid=1')
+          .send('title=practice&description=file&todoId=1')
+          .expect(302)
+          .expect('Location','/home')
+          .end(getHome)
+      })
+
+      it('should update the todo of given todoid with items',(done)=>{
+        let getHome = function(){
+          request(app)
+            .get('/home')
+            .set('cookie','sessionid=1234')
+            .expect(200)
+            .expect(/Home/)
+            .expect(/practice/)
+            .end(done);
+        }
+        request(app)
+          .post('/updateTodo')
+          .set('cookie','sessionid=1234; todoid=1')
+          .send('title=practice&description=file&items=write&todoId=1')
+          .expect(302)
+          .expect('Location','/home')
+          .end(getHome)
       })
     })
   })
