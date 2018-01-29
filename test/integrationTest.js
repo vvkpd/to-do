@@ -15,6 +15,22 @@ app.addData({"rahul": {
   }
 }});
 
+let hasCookieWithName = function(name){
+  return (res)=>{
+    let cookies = res.headers['set-cookie'].join('');
+    let result = cookies.includes(`${name}`);
+    if(!result) throw new Error('expected cookie is not present');
+  }
+}
+
+let hasCookieWithValue = function(name,value){
+  return (res)=>{
+    let cookies = res.headers['set-cookie'].join('');
+    let result = cookies.includes(`${name}=${value}`);
+    if(!result) throw new Error('expected cookie is not present');
+  }
+}
+
 describe('app',()=>{
   let users=[{Name:'vivek', Password:'123'},
             {Name:'rahul', Password:'123', sessionid:'1234'}];
@@ -189,6 +205,106 @@ describe('app',()=>{
           .expect(302)
           .expect('Location','/home')
           .end(done);
+      })
+    })
+  })
+
+  describe('POST',()=>{
+    describe('/login',()=>{
+      it('redirects to login with message for invalid user',done=>{
+        request(app)
+          .post('/login')
+          .send('Name=badUser&Password=45')
+          .expect(302)
+          .expect('Location','/login')
+          .expect(hasCookieWithValue('logInFailed',true))
+          .end(done);
+      })
+
+      it('redirects valid user to home',done=>{
+        request(app)
+          .post('/login')
+          .send('Name=vivek&Password=123')
+          .expect(302)
+          .expect('Location','/home')
+          .expect(hasCookieWithName('sessionid'))
+          .end(done);
+      })
+    })
+
+    describe('/addTodo',()=>{
+      it('should redirect unlogged user to login',(done)=>{
+        request(app)
+          .post('/addtodo')
+          .expect(302)
+          .expect('Location','/login')
+          .end(done);
+      })
+
+      it('should redirect user to requested page if body is not present',done=>{
+        request(app)
+          .post('/addtodo')
+          .set('cookie','sessionid=1234')
+          .expect(302)
+          .expect('Location','/addtodo')
+          .end(done);
+      })
+
+      it('should redirect user to home page if body is present without items',done=>{
+        let getHome = function(){
+          request(app)
+            .get('/home')
+            .set('cookie','sessionid=1234')
+            .expect(200)
+            .expect(/Home/)
+            .expect(/sample/)
+            .end(done);
+        }
+        request(app)
+          .post('/addtodo')
+          .set('cookie','sessionid=1234')
+          .send('title=sample&description=file')
+          .expect(302)
+          .expect('Location','/home')
+          .end(getHome);
+      })
+
+      it('should redirect user to home page if body is present with single item',done=>{
+        let getHome = function(){
+          request(app)
+            .get('/home')
+            .set('cookie','sessionid=1234')
+            .expect(200)
+            .expect(/Home/)
+            .expect(/practice/)
+            .end(done);
+        }
+        request(app)
+          .post('/addtodo')
+          .set('cookie','sessionid=1234')
+          .send('title=practice&description=file&items=hello')
+          .expect(302)
+          .expect('Location','/home')
+          .end(getHome);
+      })
+
+      it('should redirect user to home page if body is present with multiple item',done=>{
+        let getHome = function(){
+          request(app)
+            .get('/home')
+            .set('cookie','sessionid=1234')
+            .expect(200)
+            .expect(/Home/)
+            .expect(/time/)
+            .end(done);
+        }
+        request(app)
+          .post('/addtodo')
+          .set('cookie','sessionid=1234')
+          .send('title=time&description=file&items=hello&items=hi')
+          .expect(302)
+          .expect('Location','/home')
+          .end(getHome);
       })
     })
   })
