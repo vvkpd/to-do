@@ -6,3 +6,4 @@ data/database.json
 testData.json
 .nyc_output
 coverage
+.eslintrc.json
